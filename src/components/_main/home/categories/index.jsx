@@ -1,11 +1,11 @@
 'use client';
 // react
-import React, { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // mui
-import { Typography, Grid, Box, Stack, Paper, IconButton } from '@mui/material';
+import { Box, IconButton, Paper, Stack, Typography } from '@mui/material';
 // api
-import * as api from 'src/services';
 import { useQuery } from 'react-query';
+import * as api from 'src/services';
 // component
 import CategoryCard from 'src/components/cards/category';
 
@@ -41,11 +41,14 @@ export default function Categories() {
   const handleNext = () => scrollByAmount(120);
 
   return (
-    <Paper elevation={0} sx={{
-      maxWidth: '1480px',
-      mx: 'auto',
-      px: { xs: 0, md: 0 }
-    }}>
+    <Paper
+      elevation={0}
+      sx={{
+        maxWidth: '1480px',
+        mx: 'auto',
+        px: { xs: 0, md: 0 }
+      }}
+    >
       <Stack
         direction={'column'}
         sx={{
@@ -53,14 +56,16 @@ export default function Categories() {
           mt: { xs: 3, md: 5 }
         }}
       >
-        <Box sx={{
-          display: 'flex',
-          gap: { xs: 2, md: 3 },
-          alignItems: 'center',
-        }}>
-          <Typography 
-            variant="h3" 
-            color="text.primary" 
+        <Box
+          sx={{
+            display: 'flex',
+            gap: { xs: 2, md: 3 },
+            alignItems: 'center'
+          }}
+        >
+          <Typography
+            variant="h3"
+            color="text.primary"
             textAlign="left"
             sx={{
               fontSize: { xs: '20px', md: '24px' }
@@ -84,7 +89,13 @@ export default function Categories() {
               >
                 {/* Left arrow */}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M15 18L9 12L15 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </IconButton>
 
@@ -102,7 +113,13 @@ export default function Categories() {
               >
                 {/* Right arrow */}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M9 18L15 12L9 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </IconButton>
             </Stack>
@@ -110,7 +127,7 @@ export default function Categories() {
         </Box>
         <Box>
           {/* Mobile: Horizontal Scroll */}
-          <Box sx={{ display: "block" }}>
+          <Box sx={{ display: 'block' }}>
             <Box
               sx={{
                 display: 'flex',
@@ -125,7 +142,7 @@ export default function Categories() {
               }}
               ref={scrollRef}
             >
-              {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+              {(isLoading ? Array.from(new Array(6)) : data?.data)?.map((inner) => (
                 <Box key={Math.random()} sx={{ minWidth: 80, flexShrink: 0 }}>
                   <CategoryCard category={inner} isLoading={isLoading} />
                 </Box>
