@@ -341,7 +341,7 @@ const ProductShowCase = () => {
 
   // Helper to render the Banner Six 2-column rectangular grid (up to 2 items)
   const renderBannerSixGrid = () => (
-    <Box sx={{ width: '100%', px: { xs: 0, md: 0 } }}>
+    <Box sx={{ width: '100%', px: { xs: 0, md: 0 }, mt: 0 }}>
       <Grid container spacing={2}>
         {bannerSixSlice.map((b) => (
           <Grid item key={b._id || b.image} xs={12} sm={6} md={6}>
