@@ -1,16 +1,15 @@
 // react
 'use client';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // mui
-import { Paper, useMediaQuery, Grid, Fab, Stack } from '@mui/material';
+import { Fab, Grid, Paper, Stack, useMediaQuery } from '@mui/material';
 // icons
-import { IoArrowForward } from 'react-icons/io5';
-import { IoArrowBackOutline } from 'react-icons/io5';
+import { IoArrowBackOutline, IoArrowForward } from 'react-icons/io5';
 // redux
 import { useSelector } from 'react-redux';
 // framer motion
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 // components
 import ProductCard from 'src/components/cards/product';
 
@@ -86,14 +85,14 @@ export default function ProductsCarousel({ ...props }) {
   var slidesToShow = slidesToShowProp
     ? slidesToShowProp
     : isLarge
-    ? 6
-    : isDesktop
-    ? 3
-    : isTablet
-    ? 2
-    : isMobile
-    ? 2
-    : 6;
+      ? 6
+      : isDesktop
+        ? 3
+        : isTablet
+          ? 2
+          : isMobile
+            ? 2
+            : 6;
   // Slide 3 products per arrow click
   const slidesToScroll = 3;
   // Calculate total positions (pages) based on scroll step instead of full-row pages
@@ -104,9 +103,7 @@ export default function ProductsCarousel({ ...props }) {
   const imageIndex = page;
   const startIndex = page * slidesToScroll;
   const pageItems =
-    isLoading || !data
-      ? Array.from(new Array(slidesToShow))
-      : data.slice(startIndex, startIndex + slidesToShow);
+    isLoading || !data ? Array.from(new Array(slidesToShow)) : data.slice(startIndex, startIndex + slidesToShow);
 
   const paginate = (newDirection) => {
     const nextPage = page + newDirection;
@@ -115,15 +112,6 @@ export default function ProductsCarousel({ ...props }) {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      const nextPage = page + 1;
-      if (nextPage >= 0 && nextPage <= totalPositions - 1) {
-        setPage([nextPage, 1]);
-      }
-    }, 12000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <Paper
       elevation={0}
@@ -149,7 +137,7 @@ export default function ProductsCarousel({ ...props }) {
           pt: { lg: '24%', md: '44%', sm: '73%', xs: '86%' },
           overflow: 'hidden',
           width: '100%',
-          height: {xs: '330px', md: '100%'},
+          height: { xs: '330px', md: '100%' },
           ml: 0,
           backgroundColor: 'transparent',
           // remove extra inner padding so slides can reach container edges
@@ -241,19 +229,19 @@ export default function ProductsCarousel({ ...props }) {
             px: { xs: 1, md: 2 }
           }}
         >
-      <Fab
+          <Fab
             aria-label="back"
             size="small"
             className="left"
             onClick={() => paginate(-1)}
             disabled={page === 0}
             sx={{
-        // allow this element to receive pointer events and center vertically
-        pointerEvents: 'auto',
-        position: 'absolute',
-        left: { xs: 8, md: 12 },
-        top: '50%',
-        transform: 'translateY(-50%)',
+              // allow this element to receive pointer events and center vertically
+              pointerEvents: 'auto',
+              position: 'absolute',
+              left: { xs: 8, md: 12 },
+              top: '50%',
+              transform: 'translateY(-50%)',
               transition: 'all 0.2s ease-in-out',
               zIndex: 13,
               backgroundColor: 'rgba(255,255,255,0.6)',
@@ -278,18 +266,18 @@ export default function ProductsCarousel({ ...props }) {
           >
             <IoArrowBackOutline size={20} />
           </Fab>
-      <Fab
+          <Fab
             aria-label="forward"
             size="small"
             className="right"
             onClick={() => paginate(1)}
-      disabled={totalPositions - 1 === page}
+            disabled={totalPositions - 1 === page}
             sx={{
-        pointerEvents: 'auto',
-        position: 'absolute',
-        right: { xs: 8, md: 12 },
-        top: '50%',
-        transform: 'translateY(-50%)',
+              pointerEvents: 'auto',
+              position: 'absolute',
+              right: { xs: 8, md: 12 },
+              top: '50%',
+              transform: 'translateY(-50%)',
               transition: 'all 0.2s ease-in-out',
               zIndex: 13,
               backgroundColor: 'rgba(255,255,255,0.6)',

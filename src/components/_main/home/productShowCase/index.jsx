@@ -1,24 +1,23 @@
 'use client';
 // react
-import React from 'react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 // mui
-import { Typography, Box, Stack, Grid } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 // api
-import * as api from 'src/services';
 import { useQuery } from 'react-query';
+import * as api from 'src/services';
 // components
-import ProductsCarousel from 'src/components/carousels/products';
-import ProductCard from 'src/components/cards/product';
-import OurFacility from 'src/components/_main/home/ourFacility';
 import Link from 'next/link';
+import OurFacility from 'src/components/_main/home/ourFacility';
+import ProductCard from 'src/components/cards/product';
+import ProductsCarousel from 'src/components/carousels/products';
 
 const CategorySection = ({ category, slidesToShowProp = undefined, largeCard = false }) => {
   const { data: productsData, isLoading } = useQuery(
     ['category-products', category.slug],
     () => api.getProducts(`?category=${category.slug}&limit=12`),
     {
-      enabled: !!category.slug,
+      enabled: !!category.slug
     }
   );
 
@@ -26,12 +25,12 @@ const CategorySection = ({ category, slidesToShowProp = undefined, largeCard = f
 
   return (
     <Box>
-      <Typography 
-        variant="h3" 
-        color="text.primary" 
-        textAlign="left" 
+      <Typography
+        variant="h3"
+        color="text.primary"
+        textAlign="left"
         mb={{ xs: 2, md: 3 }}
-        sx={{ 
+        sx={{
           textTransform: 'uppercase',
           fontSize: { xs: '20px', md: '24px' },
           px: 0,
@@ -40,9 +39,14 @@ const CategorySection = ({ category, slidesToShowProp = undefined, largeCard = f
           gap: '14px'
         }}
       >
-        {category.name} <span style={{ fontSize: '14px', fontWeight: '200' }}><Link style={{color: '#000'}} href={`/products/${category.slug}`}>See more</Link></span>
+        {category.name}{' '}
+        <span style={{ fontSize: '14px', fontWeight: '200' }}>
+          <Link style={{ color: '#000' }} href={`/products/${category.slug}`}>
+            See more
+          </Link>
+        </span>
       </Typography>
-      
+
       {!isLoading && !Boolean(products.length) ? (
         <Typography variant="h6" color="text.secondary" textAlign="center">
           No products found in this category
@@ -50,15 +54,15 @@ const CategorySection = ({ category, slidesToShowProp = undefined, largeCard = f
       ) : slidesToShowProp === 2 && largeCard ? (
         // Render two large ProductCards side-by-side to avoid carousel clipping
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
-          {(products.slice(0, 2)).map((p) => (
+          {products.slice(0, 2).map((p) => (
             <Box key={p?._id || Math.random()} sx={{ '& .MuiCard-root': { height: '100%' } }}>
               <ProductCard product={p} loading={isLoading} />
             </Box>
           ))}
         </Box>
       ) : (
-        <ProductsCarousel 
-          data={products} 
+        <ProductsCarousel
+          data={products}
           isLoading={isLoading}
           slidesToShowProp={slidesToShowProp}
           largeCard={largeCard}
@@ -70,7 +74,9 @@ const CategorySection = ({ category, slidesToShowProp = undefined, largeCard = f
 
 const ProductShowCase = () => {
   // Fetch categories
-  const { data: categoriesData, isLoading: categoriesLoading } = useQuery(['get-categories'], () => api.getUserCategories());
+  const { data: categoriesData, isLoading: categoriesLoading } = useQuery(['get-categories'], () =>
+    api.getUserCategories()
+  );
 
   // Fetch public mid banners
   const { data: midData } = useQuery(['public-mid-banners'], () => api.getPublicMidBanners());
@@ -179,11 +185,25 @@ const ProductShowCase = () => {
                 <img
                   src={b.image}
                   alt={b.url || 'banner four'}
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
                 />
                 <Box
                   className="overlay"
-                  sx={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.06)', opacity: 0, transition: 'opacity 200ms ease' }}
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundColor: 'rgba(0,0,0,0.06)',
+                    opacity: 0,
+                    transition: 'opacity 200ms ease'
+                  }}
                 />
               </Box>
             </Box>
@@ -194,8 +214,9 @@ const ProductShowCase = () => {
   );
 
   // Helper to render the Banner Five 4-column grid (exactly up to 4 items)
+
   const renderBannerFiveGrid = () => (
-    <Box sx={{ width: '100%', px: { xs: 0, md: 0 } }}>
+    <Box sx={{ width: '100%', px: { xs: 0, md: 0 }, mb: 0 }}>
       <Typography
         variant="h3"
         color="text.primary"
@@ -211,20 +232,43 @@ const ProductShowCase = () => {
       </Typography>
       <Grid container spacing={2}>
         {bannerFiveSlice.map((b) => (
-          <Grid item key={b._id || b.image} xs={6} sm={6} md={3}>
+          <Grid item key={b._id || b.image} xs={6} sm={6} md={3} lg={6}>
             <Box
               component="a"
               href={b.url || '#'}
-              sx={{ display: 'block', borderRadius: 2, overflow: 'hidden', position: 'relative', '&:hover .overlay': { opacity: 1 } }}
+              sx={{
+                display: 'block',
+                borderRadius: 2,
+                overflow: 'hidden',
+                position: 'relative',
+                '&:hover .overlay': { opacity: 1 }
+              }}
             >
-              {/* square container for 1:1 aspect */}
-              <Box sx={{ width: '100%', pb: '100%', position: 'relative' }}>
+              {/* Banner aspect ratio on lg, square on smaller */}
+              <Box sx={{ width: '100%', pb: { lg: '56.25%', xs: '100%' }, position: 'relative' }}>
                 <img
                   src={b.image}
                   alt={b.url || 'banner five'}
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
                 />
-                <Box className="overlay" sx={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.06)', opacity: 0, transition: 'opacity 200ms ease' }} />
+                <Box
+                  className="overlay"
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundColor: 'rgba(0,0,0,0.06)',
+                    opacity: 0,
+                    transition: 'opacity 200ms ease'
+                  }}
+                />
               </Box>
             </Box>
           </Grid>
@@ -255,15 +299,38 @@ const ProductShowCase = () => {
             <Box
               component="a"
               href={b.url || '#'}
-              sx={{ display: 'block', borderRadius: 2, overflow: 'hidden', position: 'relative', '&:hover .overlay': { opacity: 1 } }}
+              sx={{
+                display: 'block',
+                borderRadius: 2,
+                overflow: 'hidden',
+                position: 'relative',
+                '&:hover .overlay': { opacity: 1 }
+              }}
             >
               <Box sx={{ width: '100%', pb: '100%', position: 'relative' }}>
                 <img
                   src={b.image}
                   alt={b.url || 'banner seven'}
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
                 />
-                <Box className="overlay" sx={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.06)', opacity: 0, transition: 'opacity 200ms ease' }} />
+                <Box
+                  className="overlay"
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundColor: 'rgba(0,0,0,0.06)',
+                    opacity: 0,
+                    transition: 'opacity 200ms ease'
+                  }}
+                />
               </Box>
             </Box>
           </Grid>
@@ -303,7 +370,7 @@ const ProductShowCase = () => {
   return (
     <Box sx={{ maxWidth: '1480px', mx: 'auto', py: { xs: 2, md: 4 }, px: { xs: 0, md: '50px', xl: 0 } }}>
       <Stack spacing={{ xs: 4, md: 6 }}>
-  {categories.map((category, idx) => (
+        {categories.map((category, idx) => (
           <React.Fragment key={category._id || category.slug}>
             {/* If this is the chosen index for side banner, render a two-column layout */}
             {firstSideBanner && idx === sideBannerIndex ? (
@@ -311,11 +378,20 @@ const ProductShowCase = () => {
                 <Box sx={{ flexBasis: { xs: '100%', md: '50%' } }}>
                   <CategorySection category={category} slidesToShowProp={2} largeCard={true} />
                 </Box>
-                <Box sx={{ flexBasis: { xs: '100%', md: '50%' }, flexShrink: 0, display: 'flex', alignItems: 'stretch' }}>
+                <Box
+                  sx={{ flexBasis: { xs: '100%', md: '50%' }, flexShrink: 0, display: 'flex', alignItems: 'stretch' }}
+                >
                   <Box
                     component="a"
                     href={firstSideBanner.url || '#'}
-                    sx={{ display: 'block', borderRadius: 2, overflow: 'hidden', width: '100%', height: { xs: '100%', md: '84%' }, marginTop: { xs: '8px', md: '58px' } }}
+                    sx={{
+                      display: 'block',
+                      borderRadius: 2,
+                      overflow: 'hidden',
+                      width: '100%',
+                      height: { xs: '100%', md: '84%' },
+                      marginTop: { xs: '8px', md: '58px' }
+                    }}
                   >
                     <img
                       src={firstSideBanner.image}
@@ -354,7 +430,10 @@ const ProductShowCase = () => {
                 {bannerSixSlice.length > 0 && idx + 1 === insertAfterSix && renderBannerSixGrid()}
 
                 {/* Insert Banner Seven here after chosen row */}
-                {bannerSevenSlice.length > 0 && idx + 1 === insertAfterSeven && renderBannerSevenGrid && renderBannerSevenGrid()}
+                {bannerSevenSlice.length > 0 &&
+                  idx + 1 === insertAfterSeven &&
+                  renderBannerSevenGrid &&
+                  renderBannerSevenGrid()}
               </>
             )}
 
@@ -367,17 +446,20 @@ const ProductShowCase = () => {
           </React.Fragment>
         ))}
 
-  {/* Fallback: if banner-four wasn't rendered because categories are fewer, render after last row */}
-  {bannerFourSlice.length > 0 && insertAfterFour > categories.length && renderBannerFourGrid()}
+        {/* Fallback: if banner-four wasn't rendered because categories are fewer, render after last row */}
+        {bannerFourSlice.length > 0 && insertAfterFour > categories.length && renderBannerFourGrid()}
 
-  {/* Fallback: if banner-five wasn't rendered because categories are fewer, render after last row and after banner four */}
-  {bannerFiveSlice.length > 0 && insertAfterFive > categories.length && renderBannerFiveGrid()}
+        {/* Fallback: if banner-five wasn't rendered because categories are fewer, render after last row and after banner four */}
+        {bannerFiveSlice.length > 0 && insertAfterFive > categories.length && renderBannerFiveGrid()}
 
-  {/* Fallback: if banner-six wasn't rendered because categories are fewer, render after last row and after other banners */}
-  {bannerSixSlice.length > 0 && insertAfterSix > categories.length && renderBannerSixGrid()}
+        {/* Fallback: if banner-six wasn't rendered because categories are fewer, render after last row and after other banners */}
+        {bannerSixSlice.length > 0 && insertAfterSix > categories.length && renderBannerSixGrid()}
 
-  {/* Fallback: if banner-seven wasn't rendered because categories are fewer, render after last row and after other banners */}
-  {bannerSevenSlice.length > 0 && insertAfterSeven > categories.length && renderBannerSevenGrid && renderBannerSevenGrid()}
+        {/* Fallback: if banner-seven wasn't rendered because categories are fewer, render after last row and after other banners */}
+        {bannerSevenSlice.length > 0 &&
+          insertAfterSeven > categories.length &&
+          renderBannerSevenGrid &&
+          renderBannerSevenGrid()}
       </Stack>
     </Box>
   );

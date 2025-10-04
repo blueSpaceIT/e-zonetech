@@ -12,6 +12,9 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
+  experimental: {
+    esmExternals: 'loose'
+  },
   // swcMinify: false,
 
   env: {

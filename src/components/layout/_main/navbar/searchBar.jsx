@@ -232,8 +232,7 @@ export default function SearchBar() {
                   fontSize: '14px'
                 },
 
-                maxWidth: isLargeDesktop ? '600px' : '100%',
-                mx: 'auto',
+                maxWidth: '100%',
                 width: '100%'
               }}
             />
