@@ -92,7 +92,7 @@ const CheckoutMain = () => {
       gtmEvent('purchase', {
         transaction_id: data.orderId,
         value: totalWithDiscount || total,
-        currency: 'USD',
+        currency: 'AED',
         tax: 0,
         shipping: shipping,
         coupon: couponCode || '',
@@ -162,7 +162,7 @@ const CheckoutMain = () => {
       }));
       
       gtmEvent('begin_checkout', {
-        currency: 'USD',
+        currency: 'AED',
         value: total,
         items: cartItems
       });

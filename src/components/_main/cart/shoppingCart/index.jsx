@@ -54,7 +54,7 @@ export default function ShoppingCart({ loading }) {
     // Track remove from cart event
     if (product) {
       gtmEvent('remove_from_cart', {
-        currency: 'USD',
+        currency: 'AED',
         value: product.priceSale * product.quantity,
         items: [{
           item_id: product.pid || product._id,
@@ -76,7 +76,7 @@ export default function ShoppingCart({ loading }) {
     // Track add to cart event for quantity increase
     if (product) {
       gtmEvent('add_to_cart', {
-        currency: 'USD',
+        currency: 'AED',
         value: product.priceSale,
         items: [{
           item_id: product.pid || product._id,
@@ -98,7 +98,7 @@ export default function ShoppingCart({ loading }) {
     // Track remove from cart event for quantity decrease
     if (product) {
       gtmEvent('remove_from_cart', {
-        currency: 'USD',
+        currency: 'AED',
         value: product.priceSale,
         items: [{
           item_id: product.pid || product._id,
